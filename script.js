@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const apiUrl = 'http://192.168.140.212:5000'
+    const apiUrl = 'http://10.109.142.67:5000'
     const tabela = document.querySelector(".tabela-js");
+    let idAtual = null
   
     // Obtenha tarefas da API e preencha a tabela ao carregar a página
     axios.get(`${apiUrl}/listar`)
@@ -18,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <th scope="row">${item.ID}</th>
                 <td>${item.TAREFA}</td>
                 <td>
-                    <button class="btn btn-danger delete-btn"><i class="bi bi-trash"></i></button>
-                    <button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-whatever="@mdo"><i class="bi bi-pen"></i></button>
+                    <button class="btn btn-danger delete-btn"><i class="btni bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-whatever="@mdo"><i class="btni bi bi-pen"></i></button>
                 </td>
             </tr>`
         ).join('');
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const editBtn = e.target.closest(".edit-btn");
             if (editBtn) {
                 const row = editBtn.closest("tr");
-                const id = row.querySelector("th").textContent;
+                idAtual = row.querySelector("th").textContent;
                 const tarefa = row.querySelector("td").textContent;
                 document.querySelector("#edit-tarefa").value = tarefa;
             }
@@ -73,10 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Atualize uma tarefa
         document.querySelector("#edit-tarefa-btn").addEventListener("click", function () {
             const tarefaupdate = document.querySelector("#edit-tarefa").value;
-            const id = document.querySelector(".edit-btn").parentElement.parentElement.firstElementChild.textContent;
             
-            if (id) {
-                axios.put(`${apiUrl}/update/${id}`, { Tarefa: tarefaupdate })
+            if (idAtual) {
+                axios.put(`${apiUrl}/update/${idAtual}`, { Tarefa: tarefaupdate })
                     .then(function () {
                         loadTasks();
                     })
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error(error);
                     })
                     .finally(function () {
-                        id = null;
+                        idAtual = null;
                     });
             }
         });
