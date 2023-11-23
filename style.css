@@ -3,6 +3,16 @@ html::before{
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(#318697, #0dcaf0,#dadada);
+    background-image: linear-gradient(#1b3d45, #28606c, #0dcaf0,#d8ecf0);
     z-index: -1;
+}
+
+i{
+    display: flex;
+    justify-content: center;
+}
+
+.del-btn{
+    width: 41px;
+    height: 29px;
 }
